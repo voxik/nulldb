@@ -1,6 +1,7 @@
 language: ruby
 cache: bundler
 # bundler_args: --path=vendor/bundle/activerecord_$AR_VERSION --gemfile=gemfiles/activerecord_$AR_VERSION.gemfile --without development
+bundler_args: --without development
 
 rvm:
   - 1.9.3
