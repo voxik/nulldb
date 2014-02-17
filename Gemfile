@@ -2,7 +2,6 @@ source "https://rubygems.org"
 
 def ar_version
   version = ENV["AR_VERSION"] || 'default'
-
   case version
   when 'default'
     ">= 2.0.0"
@@ -25,4 +24,10 @@ group :development do
   gem 'jeweler'
   gem 'appraisal', :github => 'thoughtbot/appraisal'
   gem 'simplecov', :require => false
+end
+
+# Travis CI only
+# Include iconv for legacy testing of AR 2.3 on Ruby (>= 2.0) / Rubinius
+if ENV['TRAVIS'] && RUBY_ENGINE && ['ruby', 'rbx'].include?(RUBY_ENGINE) # MRI >= 1.9 or Rubinius
+  gem 'iconv'
 end
