@@ -131,13 +131,22 @@ class ActiveRecord::ConnectionAdapters::NullDBAdapter < ActiveRecord::Connection
 
     if table = @tables[table_name]
       table.columns.map do |col_def|
-        ActiveRecord::ConnectionAdapters::NullDBAdapter::Column.new(
-          col_def.name.to_s,
-          col_def.default,
-          lookup_cast_type(col_def.type),
-          col_def.type,
-          col_def.null
-        )
+        if ActiveRecord::ConnectionAdapters::NullDBAdapter::Column.method_defined? :cast_type
+          ActiveRecord::ConnectionAdapters::NullDBAdapter::Column.new(
+            col_def.name.to_s,
+            col_def.default,
+            lookup_cast_type(col_def.type),
+            col_def.type,
+            col_def.null
+          )
+        else
+          ActiveRecord::ConnectionAdapters::NullDBAdapter::Column.new(
+            col_def.name.to_s,
+            col_def.default,
+            col_def.type,
+            col_def.null
+          )
+        end
       end
     else
       []
